@@ -3,6 +3,7 @@ from typing import List
 import requests
 
 from django.conf import settings
+from django.db import IntegrityError
 
 from .models import Character
 
@@ -31,7 +32,12 @@ def scrape_characters() -> List[Character]:
 
 def save_characters(characters: List[Character]) -> None:
     for character in characters:
-        character.save()
+        # Перевіряю чи персонаж, який хочу зберегти вже існує в БД чи ні.
+        # Якщо існує, тоді викидаю повідомлення, що такий персонаж вже існує у БД.
+        try:
+            character.save()
+        except IntegrityError:
+            print(f"Character with 'api_id' {character.api_id} already exist in DB!")
 
 
 def sync_characters_with_api() -> None:

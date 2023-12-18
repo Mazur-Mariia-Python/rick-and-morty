@@ -13,13 +13,14 @@ class Character(models.Model):
         GENDERLESS = "Genderless"
         UNKNOWN = "unknown"
 
-    """api_id - the id of the character from "https://rickandmortyapi.com/api/character"""
+    """api_id - the id of the character 
+    from "https://rickandmortyapi.com/api/character"""
     api_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=255)
     status = models.CharField(max_length=50, choices=StatusChoices.choices)
     species = models.CharField(max_length=255)
     gender = models.CharField(max_length=50, choices=GenderChoices.choices)
-    image = models.URLField(max_length=255, unique=False)
+    image = models.URLField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name
